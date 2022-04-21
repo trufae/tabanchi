@@ -3,7 +3,7 @@ Tabanglotchi
 
 Tamagotchi clone watch app for the BangleJS2 smartwatch.
 
-![tama on bangle](picture.jpg)
+![tama on bangle](screenshot.jpg)
 
 Author
 ------

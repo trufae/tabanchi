@@ -1,0 +1,31 @@
+{
+  "id": "tabanglotchi",
+  "name": "Tabanglotchi",
+  "shortName": "Tabaglotchi",
+  "version": "0.0.1",
+  "type": "app",
+  "description": "Tamagotchi emulator",
+  "icon": "app.png",
+  "allow_emulator": true,
+  "tags": "watch, pet",
+  "supports": [
+    "BANGLEJS2"
+  ],
+  "readme": "README.md",
+  "storage": [
+    {
+      "name": "tabanglotchi.app.js",
+      "url": "app.js"
+    },
+    {
+      "name": "tabanglotchi.img",
+      "url": "app-icon.js",
+      "evaluate": true
+    }
+  ],
+  "screenshots": [
+    {
+      "url": "screenshot.jpg"
+    }
+  ]
+}
