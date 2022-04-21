@@ -162,6 +162,9 @@ egg = egg00;
 n = tama00;
 
 function drawScene () {
+  if (Bangle.isLocked()) {
+    tool = -1;
+  }
   g.setColor(0, 0, 0);
   g.fillRect(0, 0, 200, 200);
   g.drawImage(tamabg, 0, 0, { scale: 1 });
