@@ -1,6 +1,4 @@
-// TAMAGOTCHI FOR BANGLEJS2 -- GPLv3 - pancake 2022
-
-var hs = require("heatshrink");
+// GPL TAMAGOTCHI FOR BANGLEJS2 BY pancake 2022
 
 var scale = 6;
 var tool = -1;
@@ -18,6 +16,8 @@ var egg = null;
 var cacas = 1;
 var mode = '';
 var evolution = 1;
+
+g.setBgColor(0);
 
 var egg00 = {
   width : 16, height : 16, bpp : 1,
@@ -139,6 +139,11 @@ function drawScene() {
     g.drawImage(egg, w / 4, 32, {scale:scale});
     return;
   }
+  if (mode == "clock") {
+    drawClock();
+   // return;
+  }
+  
   // draw tamagotchi
   g.drawImage(n,x+sx,y, {scale:scale});
   // draw caca
@@ -279,13 +284,15 @@ function animateToClock() {
   console.log('atc');
   var width = w / scale;
   var cx = w;
+  sx = 0;
   animated = false;
    var iv = setInterval(function() {
     sx -= scale*4;
     drawScene();
     cx -= scale*4;
     g.setColor(0,0,0);
-    g.fillRect(cx, 38, w, h-50);
+    //g.fillRect(cx, 38, w, h-50);
+    // drawClock();
     if (cx < 0) {
         clearInterval(iv);
         mode = 'clock';
@@ -312,12 +319,12 @@ function animateFromClock() {
     sx += scale*4;
     drawScene();
     cx += scale*4;
-    g.drawString('CLOCK', cx, 100);
-      g.setColor(0,0,0);
-      g.fillRect(cx, 38, w, h - 50);
+    //  g.setColor(0,0,0);
+     // g.fillRect(cx, 38, w, h - 50);
       if (cx > w) {
         clearInterval(iv);
         mode = '';
+        sx = 0;
         animated = true;
         transition = false;
         drawScene();
@@ -330,7 +337,7 @@ function button(n) {
   Bangle.beep(150);
   
   if (evolution == 0) {
-    evolution = 1;
+   // evolution = 1;
   }
   switch(n) {
     case 1:
@@ -366,7 +373,17 @@ function button(n) {
 }
 
 function drawClock() {
-
+  var d = new Date();
+  var hh = (d.getHours() < 10)? " " + d.getHours(): d.getHours();
+  var mm = (d.getMinutes() < 10)? "0" + d.getMinutes(): d.getMinutes();
+  var ss = (d.getSeconds() < 10)? "0" + d.getSeconds(): d.getSeconds();
+  const ts = hh + ":" + mm
+  g.setFont("Vector", 60);
+  g.setColor(0,0,0);
+  g.drawString(ts, w+sx + 30, 54);
+  g.setFont("Vector", 24);
+  g.setColor(0,0,0);
+  g.drawString(ss, w+sx + (w-20), 104);
 }
 
 setInterval(function() {
