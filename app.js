@@ -1,14 +1,14 @@
 // GPL TAMAGOTCHI FOR BANGLEJS2 BY pancake 2022
 
-const scale = 6;
+var scale = 6;
 let tool = -1;
-const w = g.getWidth();
-const h = g.getHeight();
+var w = g.getWidth();
+var h = g.getHeight();
 let hd = 1;
 let vd = 1;
 let x = 20;
 let sx = 0; // screen scroll x position
-const y = 40 - scale;
+var y = 40 - scale;
 let animated = true;
 let transition = false;
 let caca = null;
@@ -361,7 +361,10 @@ function button (n) {
   Bangle.beep(150);
 
   if (evolution == 0) {
-    // evolution = 1;
+    if (n == 3) {
+      evolution = 1;
+      return;
+    }
   }
   switch (n) {
     case 1:
