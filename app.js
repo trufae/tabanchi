@@ -581,14 +581,36 @@ function drawHearts (n) {
 function drawLinebar (n) { // 0-100
   const yy = 34;
   g.drawImage(linebar, 0, yy + (scale * 8), { scale: scale });
-
-  const val = (n * 12) / 100;
-  const max = val || 12;
+ var arrow = Bangle.isCharging();
+ 
+  
+        var wop = scale*2; // (frame++%2)? scale*3:scale*2;
+if (frame++%2) {
+  wop+= scale;
+ // arrow = 0;
+}
+  var twelve = 12;
+   if (arrow) {
+    //n /= 1.9;
+    twelve = 11;
+  }
+  const val = (n * twelve) / 100;
+  const max = val || twelve;
+ 
   for (let i = 0; i < max; i++) {
     g.setColor(0, 0, 0);
-    const x = (i * scale * 2) + (scale * 2);
-    const y = yy + (scale * 11);
-    g.fillRect(x, y, x + scale, y + scale * 3);
+   
+    if (arrow) {
+      const x = wop + (i * scale * 2) + ((i%2)*scale);
+      const y = yy + (scale * 11);
+      g.fillRect(x+(scale*2), y, x + (scale*3), y + scale );
+      g.fillRect(x+scale, y+scale, x + (scale*2), y + (scale *2));
+      g.fillRect(x, y+(scale*2), x + scale, y + (scale * 3));
+    } else {
+      const x = (i * scale * 2) + (scale * 2);
+      const y = yy + (scale * 11);
+      g.fillRect(x, y, x + scale, y + scale * 3);
+    }
   }
 }
 
@@ -1200,6 +1222,7 @@ Bangle.on('touch', function (r, s) {
   const w4 = w / 3;
   if (s.x > w - w4) {
     if (s.y < 50) {
+        Bangle.beep(150);
       if (oldMode == 'clock') {
         oldMode = '';
         mode = 'clock';
