@@ -1,4 +1,5 @@
-// GPL TAMAGOTCHI FOR BANGLEJS2 BY pancake 2022
+// GPL TAMAGOTCHI CLONE FOR THE BANGLEJS2 SMARTWATCH BY pancake 2022
+// TABANCHI -- たばんち
 
 const scale = 6;
 let tool = -1;
@@ -1221,3 +1222,4 @@ Bangle.on('touch', function (r, s) {
     button(2);
   }
 });
+
