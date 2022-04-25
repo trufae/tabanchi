@@ -1108,10 +1108,10 @@ function drawClock () {
   const d = new Date();
   let hh = '';
   if (useAmPm) {
-    hh = (d.getHours() < 10) ? ' ' + d.getHours() : '' + d.getHours();
-  } else {
     const h = (d.getHours() > 12) ? d.getHours() - 12 : d.getHours();
     hh = (h < 10) ? ' ' + h : '' + h;
+  } else {
+    hh = (d.getHours() < 10) ? ' ' + d.getHours() : '' + d.getHours();
   }
   const mm = (d.getMinutes() < 10) ? '0' + d.getMinutes() : '' + d.getMinutes();
   const ss = (d.getSeconds() < 10) ? '0' + d.getSeconds() : '' + d.getSeconds();
