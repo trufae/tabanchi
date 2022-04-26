@@ -568,7 +568,8 @@ const tama = {
   // hidden
   sickness: 0,
   defenses: 100,
-  tummy: 100
+  tummy: 100,
+  awake: 3,
 };
 
 function drawHearts (n) {
@@ -585,7 +586,7 @@ function drawLinebar (n) { // 0-100
  
   
         var wop = scale*2; // (frame++%2)? scale*3:scale*2;
-if (frame++%2) {
+if (frame%2) {
   wop+= scale;
  // arrow = 0;
 }
@@ -686,6 +687,15 @@ function drawScene () {
     drawAngry();
     return;
   }
+  if (mode == 'medicine') {
+     if (tama.sick) {
+      drawMedicine();
+      tama.sick = false; // XXX somtimes requires more doses
+    } else {
+      animateAngry();
+    }
+    return;
+  }
   if (mode == 'eating') {
     if (lightSelect == 0 && tama.hungry > 4) {
       drawEatingNo();
@@ -698,6 +708,9 @@ function drawScene () {
     // just dark screen and maybe zZz if its sleeping
     g.setColor(0, 0, 0);
     g.fillRect(0, 38, w + sx, h - 50);
+    if (tama.sleep) {
+      drawCaca();
+    }
   } else {
     // draw tamagotchi
     g.drawImage(n, x + sx, y, { scale: scale });
@@ -717,7 +730,6 @@ function drawAngry () {
 }
 
 function drawEatingNo () { // food eating animation
-  frame++;
   const one = angryState % 2;
 
   g.drawImage(lightSelect ? snack0 : meal0, scale, 40 + (scale * 7), { scale: scale });
@@ -725,8 +737,36 @@ function drawEatingNo () { // food eating animation
   g.drawImage(one ? tama06no0 : tama06no1, (scale * 10), 40, { scale: scale });
 }
 
+function drawMedicine () { // food eating animation
+  const med = [med0, med1, med2];
+  const img = med[0|((frame/2)%3)];
+  if (img) {
+    g.drawImage(img, 0, 34, { scale: scale });
+  }
+  g.drawImage(tama06no0, (scale * 10), 40, { scale: scale });
+  if (2==((frame/2) %3)) {
+    mode = "";
+  }
+}
+
+var med0 = {
+  width : 16, height : 16, bpp : 1,
+  transparent : 1,
+  buffer : atob("///4P/1//X/9f+AP+7/4P/o/+j/4P/g//H/+//7///8=")
+};
+var med1 = {
+  width : 16, height : 16, bpp : 1,
+  transparent : 1,
+  buffer : atob("//////g//X/9f+AP+z/7P/o/+D/7P/g//H/+//7///8=")
+};
+
+var med2 = {
+  width : 16, height : 16, bpp : 1,
+  transparent : 1,
+  buffer : atob("////////+D/9f+AP+j/7P/s/+z/7v/g//H/+//7///8=")
+};
+
 function drawEating () { // food eating animation
-  frame++;
   const one = angryState % 2;
   const snack = [snack0, snack1, snack2];
   const meal = [meal0, meal1, meal2];
@@ -773,6 +813,7 @@ function drawTools () {
 
 // this function is executed once per second. so the animations look stable and consistent
 function updateAnimation () {
+  frame++;
   if (evolution == 0) {
     // animate the egg
     egg = (egg == egg00) ? egg01 : egg00;
@@ -789,12 +830,18 @@ function updateAnimation () {
   // y += vd * scale;
   vd = -vd;
   const width = (w / scale);
-  n = n == tama00 ? tama01 : tama00;
+  if (tama.sleep) {
+    n = tama00;
+    x = (width / 2);
+    
+  } else {
+    n = n == tama00 ? tama01 : tama00;
   if (tama.cacas > 0) {
     if (x > (width / 2)) {
       hd = -1;
       x = (width / 2);
     }
+  }
   }
 }
 
@@ -816,20 +863,37 @@ function activateItem () {
       animateToClock();
       break;
     case 0: // food
+      if (tama.sleep) {
+      } else {
       // evolution = 0;
       mode = 'food';
       lightSelect = 0;
+      }
       break;
     case 1: // onoff
       mode = 'light';
       break;
     case 2: // game
-      animateAngry();
+      if (tama.sleep) {
+      } else {
+        animateAngry();
+      }
       break;
     case 3: // vax
-      animateAngry();
+      if (tama.sleep) {
+        // cant medicate if sleeping
+      } else {
+        mode = "medicine";
+        frame=0;
+        angryState = 0;
+      }
       break;
     case 4: // shower
+      if (tama.sleep) {
+        tama.happy = 0;
+      }
+      tama.awake = 10; // time to go to sleep again if in time
+      tama.sleep = false;
       animateShower();
       break;
     case 5: // status
@@ -837,6 +901,10 @@ function activateItem () {
       statusMode = 0;
       break;
     case 6: // blame
+      if (tama.sleep) {
+        tama.happy = 0;
+        tama.sleep = false;
+      }
       animateAngry();
       break;
   }
@@ -851,19 +919,64 @@ const skull = {
   buffer: atob('gwFtARGDq/8=')
 };
 
+var zz0 = {
+  width : 8, height : 8, bpp : 1,
+  transparent : 1,
+  buffer : atob("//H9+/fRf/8=")
+};
+
+var zz1 = {
+  width : 8, height : 8, bpp : 1,
+  transparent : 1,
+  buffer : atob("/8P79+/fw/8=")
+};
+
+
+var zz2 = {
+  width : 8, height : 8, bpp : 1,
+  transparent : 0,
+  buffer : atob("AA4CBAgugAA=")
+};
+var zz3 = {
+  width : 8, height : 8, bpp : 1,
+  transparent : 0,
+  buffer : atob("ADwECBAgPAA=")
+};
+
 function drawCaca () {
-  if (!caca) {
+ if (!caca) {
     caca = caca00;
   }
-  if (tama.cacas == 0) {
-    return;
-  }
-  g.setColor(0, 0, 0);
-  g.drawImage(caca, sx + w - (scale * 11), 32 + (scale * 6), { scale: scale });
+    var zz = [zz0,zz1];
 
-  if (tama.sick) {
+if (lightMode) {
+      zz = [zz2,zz3];
+  g.setColor(1,1,1);
+  var fi = ((frame)/2)%2;
+  g.drawImage(zz[fi?1:0], sx + w - (scale * 9), 40, { scale: scale });
+  return;
+}
+  g.setColor(0, 0, 0);
+ // tama.sick=false;
+ // tama.sleep=0;
+  //tama.cacas=1;
+  if (tama.sleep) {
+    var fi = ((frame)/2)%2;
+    g.drawImage(zz[fi?1:0], sx + w - (scale * 9), 34, { scale: scale });
+    if (tama.sick) {
+      g.drawImage(skull, sx + w - (scale * 11), 34 + (scale * 6), { scale: scale });
+    } else if (tama.cacas > 0) {
+      g.drawImage(caca, sx + w - (scale * 11), 32 + (scale * 6), { scale: scale });
+    }
+  } else if (tama.sick) {
     g.drawImage(skull, sx + w - (scale * 9), 34 + scale, { scale: scale });
+    if (tama.cacas >0) {
+      g.drawImage(caca, sx + w - (scale * 11), 32 + (scale * 6), { scale: scale });
+    }
   } else {
+    if (tama.cacas > 0) {
+      g.drawImage(caca, sx + w - (scale * 9), 34 + scale, { scale: scale });
+    }
     if (tama.cacas > 1) {
       g.drawImage(caca, sx + w - (scale * 11), 32 - scale, { scale: scale });
     }
@@ -882,7 +995,6 @@ function animateAngry () {
   const cx = w;
   var iv = setInterval(function () {
     angryState++;
-    drawTools();
     if (angryState > 3) {
       clearInterval(iv);
       transition = false;
@@ -911,7 +1023,6 @@ function animateFood () {
   const cx = w;
   var iv = setInterval(function () {
     angryState++;
-    drawTools();
     if (angryState > 3) {
       clearInterval(iv);
       transition = false;
@@ -1180,8 +1291,8 @@ function drawClock () {
 
 setInterval(function () {
   if (animated) {
-    drawScene();
     updateAnimation();
+    drawScene();
   }
 }, 1000);
 
@@ -1190,14 +1301,24 @@ let cacaBirth = null;
 
 setInterval(function () {
   // poo maker
-  const a = 0 | (cacaLevel / tama.tummy);
-  const b = 0 | ((cacaLevel + tama.hungry) / tama.tummy);
-  cacaLevel += tama.hungry;
-  if (a != b) {
-    if (tama.cacas == 0) {
-      cacaBirth = new Date();
+  if (tama.hungry > 0 && !tama.sleep) {
+    const a = 0 | (cacaLevel / tama.tummy);
+    const b = 0 | ((cacaLevel + tama.hungry) / tama.tummy);
+    cacaLevel += tama.hungry;
+    if (a != b) {
+      if (tama.cacas == 0) {
+        cacaBirth = new Date();
+      }
+      tama.hungry--;
+      tama.cacas++;
     }
-    tama.cacas++;
+  }
+  var d = new Date();
+  var h = d.getHours();
+  tama.sleep = (h > 10 || h < 8);
+  if (tama.awake > 0) {
+    tama.awake--;
+    tama.sleep = false;
   }
 }, 5000);
 
@@ -1205,10 +1326,10 @@ setInterval(function () {
   // health check
   tama.sickness += tama.cacas;
   if (tama.hungry == 0) {
-    tama.sickness++;
+  //  tama.sickness++;
   }
   if (tama.hungry == 4) {
-    tama.sickness++;
+    // tama.sickness++;
   }
   if (tama.sickness > tama.defenses) {
     tama.sick = true;
@@ -1216,7 +1337,8 @@ setInterval(function () {
   if (tama.sick) {
     callForAttention = true;
   }
-}, 1000);
+}, 2000);
+    updateAnimation();
 
 Bangle.on('touch', function (r, s) {
   const w4 = w / 3;
