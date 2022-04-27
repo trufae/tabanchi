@@ -20,6 +20,8 @@ let callForAttention = false; // TODO : move into tama{}
 let useAmPm = true;
 let oldMode = '';
 let gameChoice = 0;
+let gameTries = 0;
+let gameWins = 0;
 
 g.setBgColor(0);
 
@@ -337,6 +339,12 @@ const happy = {
   buffer: atob('/////2/iP/9v6qv/bGqr/w9iK/9obvP/a277/2yu5/8=')
 };
 
+var vs = {
+  width : 16, height : 8, bpp : 1,
+  transparent : 1,
+  buffer : atob("Uf9V/1f/W/9d/7X/sf///w==")
+};
+
 const egg01 = {
   width: 16,
   height: 16,
@@ -476,6 +484,12 @@ const tamabg = {
   buffer: require('heatshrink').decompress(atob('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'))
 };
 
+var tama06happy = {
+  width : 16, height : 16, bpp : 1,
+  transparent : 1,
+  buffer : atob("/////4Afvm+Hd+B74duDq7v7g/vv++/79/f4D/////8=")
+};
+
 const battery = {
   width: 32,
   height: 8,
@@ -575,25 +589,21 @@ const tama = {
 
 function drawHearts (n) {
   for (i = 0; i < 4; i++) {
-    const heart = (i < n) ? heart1 : heart0;
-    g.drawImage(heart0, 1 + (scale * (8 * i)) - scale - scale, 40 + (scale * 8), { scale: (scale) });
+    const himg = (i < n) ? heart1 : heart0;
+    g.drawImage(himg, 1 + (scale * (8 * i)) - scale - scale, 40 + (scale * 8), { scale: (scale) });
   }
 }
 
-function drawLinebar (n) { // 0-100
+function drawLinebar (n, arrow) { // 0-100
   const yy = 34;
   g.drawImage(linebar, 0, yy + (scale * 8), { scale: scale });
- var arrow = Bangle.isCharging();
- 
-  
-        var wop = scale*2; // (frame++%2)? scale*3:scale*2;
-if (frame%2) {
-  wop+= scale;
- // arrow = 0;
-}
+
+  var wop = scale*2; // (frame++%2)? scale*3:scale*2;
+  if (frame%2) {
+    wop += scale;
+  }
   var twelve = 12;
    if (arrow) {
-    //n /= 1.9;
     twelve = 11;
   }
   const val = (n * twelve) / 100;
@@ -629,7 +639,7 @@ function drawStatus () {
       break;
     case 1: // discipline
       g.drawImage(discipline, 0, yy, { scale: scale });
-      drawLinebar(tama.discipline);
+      drawLinebar(tama.discipline, false);
       break;
     case 2: // hungry
       g.drawImage(hungry, scale, yy, { scale: scale });
@@ -641,7 +651,7 @@ function drawStatus () {
       break;
     case 5: // battery
       g.drawImage(battery, scale, yy, { scale: scale });
-      drawLinebar(E.getBattery());
+      drawLinebar(E.getBattery(), true);
       break;
     default:
       statusMode = 0;
@@ -677,6 +687,34 @@ function drawScene () {
       return;
     }
   }
+  if (gameTries > 4) {
+    mode = "";
+    oldMode = "";
+    console.log("SHOW RESULTS");
+    g.setColor(0,0,0);
+    var ss = '' + gameWins + " VS " + (5-gameWins);
+    g.setFont('Vector', 32);
+   // g.drawString(ss, (scale*4), 46);
+    const s0 = numbers[gameWins];
+    const s1 = numbers[(5-gameWins)];
+    g.drawImage(s0, (scale * 6), 60, {scale:scale});
+    g.drawImage(vs, (scale * 12), 60, {scale:scale});
+    g.drawImage(s1, (scale * 21), 60, {scale:scale});
+
+    gameTries++;
+    if (gameTries > 10) {
+      var winrar = (gameWins > 2)
+      gameTries = 0;
+      gameWins = 0;
+      oldMode = "";
+      mode = "";
+      if (winrar) {
+        tama.happy++;
+        animateHappy();
+      }
+    }
+    return;
+  }
 
   if (mode == 'clock') {
     drawClock();
@@ -696,6 +734,10 @@ function drawScene () {
   }
   if (mode == 'light') {
     drawLight();
+    return;
+  }
+  if (mode == 'happy') {
+    drawHappy();
     return;
   }
   if (mode == 'angry') {
@@ -732,15 +774,24 @@ function drawScene () {
     drawCaca();
   }
 }
-var statusMode = 0;
 
+var statusMode = 0;
 var lightSelect = 0;
 var lightMode = 0; // on is zero
 let frame = 0;
+
 function drawAngry () {
   const one = angryState % 2;
-  g.drawImage(one ? tama06no0 : tama06no1, (scale * 4), 40, { scale: scale });
+  g.drawImage(one ? tama06no0 : tama06no1, (scale * 5), 40, { scale: scale });
   g.drawImage(one ? angry0 : angry1, (scale * 20), 40, { scale: scale });
+}
+
+function drawHappy () {
+  const one = angryState % 2;
+  g.drawImage(one ? tama06happy : tama06no1, (scale * 5), 40, { scale: scale });
+  if (one) {
+    g.drawImage(sun, (scale * 20), 46, { scale: scale });
+  }
 }
 
 function drawEatingNo () { // food eating animation
@@ -776,6 +827,12 @@ function drawMedicine () { // food eating animation
   }
   g.drawImage(tama06no0, (scale * 10), 40, { scale: scale });
 }
+
+var sun = {
+  width : 8, height : 8, bpp : 1,
+  transparent : 1,
+  buffer : atob("773nW9rnvfc=")
+};
 
 function drawEating () { // food eating animation
   const one = angryState % 2;
@@ -835,7 +892,7 @@ function updateAnimation () {
     if (transition) {
       var beep = frame % 4;
       if (beep == 0) {
-                Bangle.beep(150, 4000);
+         Bangle.beep (150, 4000);
       } else if (beep == 2) {
          Bangle.beep (150, 3200);
       }
@@ -844,7 +901,14 @@ function updateAnimation () {
     }
     if (gameChoice != 0) {
       // do things
-      gameChoice = 0;
+       gameChoice = 0;
+       if ((0|(Math.random()*3)) > 0) {
+          animateHappy();
+          gameWins++;
+        } else {
+          animateAngry();
+
+        }
     }
     return;
   }
@@ -985,6 +1049,9 @@ var zz3 = {
 };
 
 function drawCaca () {
+  if (mode == "game") {
+    return;
+  }
  if (!caca) {
     caca = caca00;
   }
@@ -1002,7 +1069,7 @@ if (lightMode) {
     var fi = ((frame)/2)%2;
     g.drawImage(zz[fi?1:0], sx + w - (scale * 9), 34, { scale: scale });
     if (tama.sick > 0) {
-      g.drawImage(skull, sx + w - (scale * 11), 34 + (scale * 6), { scale: scale });
+      g.drawImage(skull, sx + w - (scale * 9), 34 + (scale * 6), { scale: scale });
     } else if (tama.cacas > 0) {
       g.drawImage(caca, sx + w - (scale * 11), 32 + (scale * 6), { scale: scale });
     }
@@ -1013,14 +1080,38 @@ if (lightMode) {
     }
   } else {
     if (tama.cacas > 0) {
-      g.drawImage(caca, sx + w - (scale * 9), 34 + scale, { scale: scale });
+      g.drawImage(caca, sx + w - (scale * 11), 34 + (scale*6), { scale: scale });
     }
     if (tama.cacas > 1) {
-      g.drawImage(caca, sx + w - (scale * 11), 32 - scale, { scale: scale });
+      g.drawImage(caca, sx + w - (scale * 11), 24, { scale: scale });
     }
   }
 }
 var angryState = 0;
+
+function animateHappy () {
+  if (transition || mode == 'happy') {
+    return;
+  }
+  angryState = 0;
+  mode = 'happy';
+  transition = true;
+  const width = w / scale;
+  const cx = w;
+  var iv = setInterval(function () {
+    angryState++;
+    if (angryState > 3) {
+      clearInterval(iv);
+      transition = false;
+      angryState = 0;
+      mode = oldMode;
+      if (mode == "game") {
+          gameTries++;
+      }
+    }
+    drawScene();
+  }, 1000);
+}
 
 function animateAngry () {
   if (transition || mode == 'angry') {
@@ -1037,7 +1128,10 @@ function animateAngry () {
       clearInterval(iv);
       transition = false;
       angryState = 0;
-      mode = '';
+      mode = oldMode;
+      if (mode == "game") {
+          gameTries++;
+      }
     }
     drawScene();
   }, 1000);
@@ -1169,8 +1263,6 @@ function animateFromClock () {
     sx += scale * 4;
     drawScene();
     cx += scale * 4;
-    //  g.setColor(0,0,0);
-    // g.fillRect(cx, 38, w, h - 50);
     if (cx > w) {
       clearInterval(iv);
       mode = '';
@@ -1189,17 +1281,31 @@ function button (n) {
       return;
     }
   }
+    if (mode == "happy" || mode == "angry") {
+      return;
+    }
+
   if (mode == "game") {
+    /*
+    if (gameTries > 3) {
+      mode = "";
+      gameWins = 0;
+      gameTries = 0;
+      //tama.tired++;
+    }
+    */
     switch (n) {
       case 1:
         // pick left
         gameChoice = 1;
         drawScene();
+        oldMode = "game";
         break;
       case 2:
         // pick right
         gameChoice = 2;
         drawScene();
+        oldMode = "game";
         break;
       case 3:
         mode = "";
@@ -1307,7 +1413,18 @@ function drawGame () {
     g.drawImage(heart0, sx + w, 40+ (scale * 8), {scale:scale});
     g.drawImage(heart0, sx + w + (scale * 12), 40+ (scale * 8), {scale:scale});
   } else {
-    g.drawImage(one ? tama06no1 : tama06no0, (scale*7) + sx, 40, { scale: scale });
+    if (gameTries > 4) {
+      if (oldMode != "") {
+        if (gameWins > 2) {
+          animateHappy();
+        }
+      }
+      mode = oldMode;
+      oldMode = "";
+    //  g.drawImage();
+    } else {
+      g.drawImage(one ? tama06no1 : tama06no0, (scale*7) + sx, 40, { scale: scale });
+    }
   }
 }
 
