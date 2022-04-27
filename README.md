@@ -23,7 +23,7 @@ Features
 * [ ] Hatching eggs
 * [ ] Playing a game
 * [ ] Education
-* [ ] Medicine
+* [x] Medicine
 * [ ] Death
 
 

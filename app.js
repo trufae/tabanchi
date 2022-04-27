@@ -16,9 +16,10 @@ let caca = null;
 let egg = null;
 let mode = '';
 let evolution = 1;
-let callForAttention = false;
+let callForAttention = false; // TODO : move into tama{}
 let useAmPm = true;
 let oldMode = '';
+let gameChoice = 0;
 
 g.setBgColor(0);
 
@@ -575,7 +576,7 @@ const tama = {
 function drawHearts (n) {
   for (i = 0; i < 4; i++) {
     const heart = (i < n) ? heart1 : heart0;
-    g.drawImage(heart, 1 + (scale * (8 * i)) - scale - scale, 40 + (scale * 8), { scale: (scale) });
+    g.drawImage(heart0, 1 + (scale * (8 * i)) - scale - scale, 40 + (scale * 8), { scale: (scale) });
   }
 }
 
@@ -662,7 +663,21 @@ function drawScene () {
     g.drawImage(egg, w / 4, 32, { scale: scale });
     return;
   }
-  if (callForAttention) { g.drawImage(tool13, 10 + 30 + 10 + 30 + 10 + 30 + 10, 135); }
+  if (callForAttention) {
+    g.drawImage(tool13, 10 + 30 + 10 + 30 + 10 + 30 + 10, 135);
+  }
+  if (mode == "game") {
+    drawGame();
+     if (!transition) {
+       if (gameChoice == 2) {
+         g.drawImage(right, w-(scale*7), 40+(scale*4), {scale:scale});
+       } else if (gameChoice == 1) {
+         g.drawImage(left, 0, 40+(scale*4), {scale:scale});
+       }
+      return;
+    }
+  }
+
   if (mode == 'clock') {
     drawClock();
     if (!transition) {
@@ -688,9 +703,8 @@ function drawScene () {
     return;
   }
   if (mode == 'medicine') {
-     if (tama.sick) {
+     if (tama.sick > 0) {
       drawMedicine();
-      tama.sick = false; // XXX somtimes requires more doses
     } else {
       animateAngry();
     }
@@ -737,18 +751,6 @@ function drawEatingNo () { // food eating animation
   g.drawImage(one ? tama06no0 : tama06no1, (scale * 10), 40, { scale: scale });
 }
 
-function drawMedicine () { // food eating animation
-  const med = [med0, med1, med2];
-  const img = med[0|((frame/2)%3)];
-  if (img) {
-    g.drawImage(img, 0, 34, { scale: scale });
-  }
-  g.drawImage(tama06no0, (scale * 10), 40, { scale: scale });
-  if (2==((frame/2) %3)) {
-    mode = "";
-  }
-}
-
 var med0 = {
   width : 16, height : 16, bpp : 1,
   transparent : 1,
@@ -765,6 +767,15 @@ var med2 = {
   transparent : 1,
   buffer : atob("////////+D/9f+AP+j/7P/s/+z/7v/g//H/+//7///8=")
 };
+
+function drawMedicine () { // food eating animation
+  const med = [med0, med1, med2];
+  const img = med[0|((frame/2)%3)];
+  if (img) {
+    g.drawImage(img, 0, 34, { scale: scale });
+  }
+  g.drawImage(tama06no0, (scale * 10), 40, { scale: scale });
+}
 
 function drawEating () { // food eating animation
   const one = angryState % 2;
@@ -819,6 +830,30 @@ function updateAnimation () {
     egg = (egg == egg00) ? egg01 : egg00;
     return;
   }
+  if (mode == "game") {
+   // console.log("update Animation");
+    if (transition) {
+      var beep = frame % 4;
+      if (beep == 0) {
+                Bangle.beep(150, 4000);
+      } else if (beep == 2) {
+         Bangle.beep (150, 3200);
+      }
+    } else {
+      Bangle.beep(100);
+    }
+    if (gameChoice != 0) {
+      // do things
+      gameChoice = 0;
+    }
+    return;
+  }
+  if (mode == "medicine") {
+    if (frame > 3) {
+      mode = "";
+      tama.sick--;
+    }
+  }
   x += (scale) * hd;
   if (x + (tama00.width * scale) >= w) {
     hd = -hd;
@@ -836,7 +871,7 @@ function updateAnimation () {
     
   } else {
     n = n == tama00 ? tama01 : tama00;
-  if (tama.cacas > 0) {
+  if (tama.cacas > 0 || tama.sick > 0) {
     if (x > (width / 2)) {
       hd = -1;
       x = (width / 2);
@@ -876,7 +911,7 @@ function activateItem () {
     case 2: // game
       if (tama.sleep) {
       } else {
-        animateAngry();
+        animateToGame();
       }
       break;
     case 3: // vax
@@ -884,7 +919,7 @@ function activateItem () {
         // cant medicate if sleeping
       } else {
         mode = "medicine";
-        frame=0;
+        frame = 0;
         angryState = 0;
       }
       break;
@@ -904,11 +939,17 @@ function activateItem () {
       if (tama.sleep) {
         tama.happy = 0;
         tama.sleep = false;
+      } else if (callForAttention) {
+        if (tama.happy > 0 && tama.hungry > 0 && tama.sick < 1) {
+          tama.discipline += 2;
+          callForAttention = false;
+        } else if (tama.sick > 0) {
+          tama.discipline --;
+        } 
       }
       animateAngry();
       break;
   }
-  // tool = -1;
 }
 
 const skull = {
@@ -957,18 +998,15 @@ if (lightMode) {
   return;
 }
   g.setColor(0, 0, 0);
- // tama.sick=false;
- // tama.sleep=0;
-  //tama.cacas=1;
   if (tama.sleep) {
     var fi = ((frame)/2)%2;
     g.drawImage(zz[fi?1:0], sx + w - (scale * 9), 34, { scale: scale });
-    if (tama.sick) {
+    if (tama.sick > 0) {
       g.drawImage(skull, sx + w - (scale * 11), 34 + (scale * 6), { scale: scale });
     } else if (tama.cacas > 0) {
       g.drawImage(caca, sx + w - (scale * 11), 32 + (scale * 6), { scale: scale });
     }
-  } else if (tama.sick) {
+  } else if (tama.sick > 0) {
     g.drawImage(skull, sx + w - (scale * 9), 34 + scale, { scale: scale });
     if (tama.cacas >0) {
       g.drawImage(caca, sx + w - (scale * 11), 32 + (scale * 6), { scale: scale });
@@ -1016,6 +1054,7 @@ function animateFood () {
   if (lightSelect == 1) { // snack
     tama.happy++;
     tama.hungry++;
+    tama.sickness += 2;
   }
   frame = 0;
   transition = true;
@@ -1062,6 +1101,31 @@ function animateShower () {
   }, 100);
 }
 
+function animateToGame () {
+  if (transition || mode == "game") {
+    return;
+  }
+  mode = "game";
+  gameChoice = 0;
+  transition = true;
+  let cx = 0;
+  sx = -w;
+  animated = false;
+  var iv = setInterval(function () {
+    sx += scale * 2;
+    updateAnimation();
+    drawScene();
+    cx += scale * 2;
+    if (cx > w) {
+      clearInterval(iv);
+      sx = 0;
+      animated = true;
+      transition = false;
+      drawScene();
+    }
+  }, 100);
+}
+
 function animateToClock () {
   if (transition) {
     return;
@@ -1080,8 +1144,6 @@ function animateToClock () {
     drawScene();
     cx -= scale * 4;
     g.setColor(0, 0, 0);
-    // g.fillRect(cx, 38, w, h-50);
-    // drawClock();
     if (cx < 0) {
       clearInterval(iv);
       mode = 'clock';
@@ -1089,7 +1151,7 @@ function animateToClock () {
       animated = true;
       drawScene();
     }
-  }, 1);
+  }, 100);
 }
 
 function animateFromClock () {
@@ -1117,7 +1179,7 @@ function animateFromClock () {
       transition = false;
       drawScene();
     }
-  }, 1);
+  }, 100);
 }
 
 function button (n) {
@@ -1126,6 +1188,25 @@ function button (n) {
       evolution = 1;
       return;
     }
+  }
+  if (mode == "game") {
+    switch (n) {
+      case 1:
+        // pick left
+        gameChoice = 1;
+        drawScene();
+        break;
+      case 2:
+        // pick right
+        gameChoice = 2;
+        drawScene();
+        break;
+      case 3:
+        mode = "";
+        // exit game
+        break;
+    }
+    return;
   }
   if (mode == 'eating') {
     Bangle.buzz();
@@ -1215,6 +1296,21 @@ function button (n) {
   }
 }
 
+function drawGame () {
+  g.setColor(0, 0, 0);
+
+  var one = frame %2;
+  if (transition) {
+    one = 0;
+    g.drawImage(heart1, sx + w + (scale *6), 40, {scale:scale});
+    g.drawImage(heart1, sx + w + (scale * 16), 40, {scale:scale});
+    g.drawImage(heart0, sx + w, 40+ (scale * 8), {scale:scale});
+    g.drawImage(heart0, sx + w + (scale * 12), 40+ (scale * 8), {scale:scale});
+  } else {
+    g.drawImage(one ? tama06no1 : tama06no0, (scale*7) + sx, 40, { scale: scale });
+  }
+}
+
 function drawClock () {
   const d = new Date();
   let hh = '';
@@ -1290,10 +1386,10 @@ function drawClock () {
 }
 
 setInterval(function () {
-  if (animated) {
+ // if (animated) {
     updateAnimation();
     drawScene();
-  }
+ // }
 }, 1000);
 
 let cacaLevel = 0;
@@ -1315,7 +1411,7 @@ setInterval(function () {
   }
   var d = new Date();
   var h = d.getHours();
-  tama.sleep = (h > 10 || h < 8);
+  tama.sleep = (h > 22 || h < 8);
   if (tama.awake > 0) {
     tama.awake--;
     tama.sleep = false;
@@ -1323,6 +1419,9 @@ setInterval(function () {
 }, 5000);
 
 setInterval(function () {
+  if (tama.sleep) {
+    return;
+  }
   // health check
   tama.sickness += tama.cacas;
   if (tama.hungry == 0) {
@@ -1332,13 +1431,15 @@ setInterval(function () {
     // tama.sickness++;
   }
   if (tama.sickness > tama.defenses) {
-    tama.sick = true;
+    tama.sickness = 0;
+    tama.sick ++;
   }
-  if (tama.sick) {
+  if (tama.sick > 0) {
     callForAttention = true;
   }
 }, 2000);
-    updateAnimation();
+
+updateAnimation();
 
 Bangle.on('touch', function (r, s) {
   const w4 = w / 3;
