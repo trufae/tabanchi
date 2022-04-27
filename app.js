@@ -339,10 +339,12 @@ const happy = {
   buffer: atob('/////2/iP/9v6qv/bGqr/w9iK/9obvP/a277/2yu5/8=')
 };
 
-var vs = {
-  width : 16, height : 8, bpp : 1,
-  transparent : 1,
-  buffer : atob("Uf9V/1f/W/9d/7X/sf///w==")
+const vs = {
+  width: 16,
+  height: 8,
+  bpp: 1,
+  transparent: 1,
+  buffer: atob('Uf9V/1f/W/9d/7X/sf///w==')
 };
 
 const egg01 = {
@@ -484,10 +486,12 @@ const tamabg = {
   buffer: require('heatshrink').decompress(atob('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'))
 };
 
-var tama06happy = {
-  width : 16, height : 16, bpp : 1,
-  transparent : 1,
-  buffer : atob("/////4Afvm+Hd+B74duDq7v7g/vv++/79/f4D/////8=")
+const tama06happy = {
+  width: 16,
+  height: 16,
+  bpp: 1,
+  transparent: 1,
+  buffer: atob('/////4Afvm+Hd+B74duDq7v7g/vv++/79/f4D/////8=')
 };
 
 const battery = {
@@ -584,7 +588,7 @@ const tama = {
   sickness: 0,
   defenses: 100,
   tummy: 100,
-  awake: 3,
+  awake: 3
 };
 
 function drawHearts (n) {
@@ -598,26 +602,26 @@ function drawLinebar (n, arrow) { // 0-100
   const yy = 34;
   g.drawImage(linebar, 0, yy + (scale * 8), { scale: scale });
 
-  var wop = scale*2; // (frame++%2)? scale*3:scale*2;
-  if (frame%2) {
+  let wop = scale * 2; // (frame++%2)? scale*3:scale*2;
+  if (frame % 2) {
     wop += scale;
   }
-  var twelve = 12;
-   if (arrow) {
+  let twelve = 12;
+  if (arrow) {
     twelve = 11;
   }
   const val = (n * twelve) / 100;
   const max = val || twelve;
- 
+
   for (let i = 0; i < max; i++) {
     g.setColor(0, 0, 0);
-   
+
     if (arrow) {
-      const x = wop + (i * scale * 2) + ((i%2)*scale);
+      const x = wop + (i * scale * 2) + ((i % 2) * scale);
       const y = yy + (scale * 11);
-      g.fillRect(x+(scale*2), y, x + (scale*3), y + scale );
-      g.fillRect(x+scale, y+scale, x + (scale*2), y + (scale *2));
-      g.fillRect(x, y+(scale*2), x + scale, y + (scale * 3));
+      g.fillRect(x + (scale * 2), y, x + (scale * 3), y + scale);
+      g.fillRect(x + scale, y + scale, x + (scale * 2), y + (scale * 2));
+      g.fillRect(x, y + (scale * 2), x + scale, y + (scale * 3));
     } else {
       const x = (i * scale * 2) + (scale * 2);
       const y = yy + (scale * 11);
@@ -676,38 +680,38 @@ function drawScene () {
   if (callForAttention) {
     g.drawImage(tool13, 10 + 30 + 10 + 30 + 10 + 30 + 10, 135);
   }
-  if (mode == "game") {
+  if (mode == 'game') {
     drawGame();
-     if (!transition) {
-       if (gameChoice == 2) {
-         g.drawImage(right, w-(scale*7), 40+(scale*4), {scale:scale});
-       } else if (gameChoice == 1) {
-         g.drawImage(left, 0, 40+(scale*4), {scale:scale});
-       }
+    if (!transition) {
+      if (gameChoice == 2) {
+        g.drawImage(right, w - (scale * 7), 40 + (scale * 4), { scale: scale });
+      } else if (gameChoice == 1) {
+        g.drawImage(left, 0, 40 + (scale * 4), { scale: scale });
+      }
       return;
     }
   }
   if (gameTries > 4) {
-    mode = "";
-    oldMode = "";
-    console.log("SHOW RESULTS");
-    g.setColor(0,0,0);
-    var ss = '' + gameWins + " VS " + (5-gameWins);
+    mode = '';
+    oldMode = '';
+    console.log('SHOW RESULTS');
+    g.setColor(0, 0, 0);
+    const ss = '' + gameWins + ' VS ' + (5 - gameWins);
     g.setFont('Vector', 32);
-   // g.drawString(ss, (scale*4), 46);
+    // g.drawString(ss, (scale*4), 46);
     const s0 = numbers[gameWins];
-    const s1 = numbers[(5-gameWins)];
-    g.drawImage(s0, (scale * 6), 60, {scale:scale});
-    g.drawImage(vs, (scale * 12), 60, {scale:scale});
-    g.drawImage(s1, (scale * 21), 60, {scale:scale});
+    const s1 = numbers[(5 - gameWins)];
+    g.drawImage(s0, (scale * 6), 60, { scale: scale });
+    g.drawImage(vs, (scale * 12), 60, { scale: scale });
+    g.drawImage(s1, (scale * 21), 60, { scale: scale });
 
     gameTries++;
     if (gameTries > 10) {
-      var winrar = (gameWins > 2)
+      const winrar = (gameWins > 2);
       gameTries = 0;
       gameWins = 0;
-      oldMode = "";
-      mode = "";
+      oldMode = '';
+      mode = '';
       if (winrar) {
         tama.happy++;
         animateHappy();
@@ -745,7 +749,7 @@ function drawScene () {
     return;
   }
   if (mode == 'medicine') {
-     if (tama.sick > 0) {
+    if (tama.sick > 0) {
       drawMedicine();
     } else {
       animateAngry();
@@ -802,26 +806,32 @@ function drawEatingNo () { // food eating animation
   g.drawImage(one ? tama06no0 : tama06no1, (scale * 10), 40, { scale: scale });
 }
 
-var med0 = {
-  width : 16, height : 16, bpp : 1,
-  transparent : 1,
-  buffer : atob("///4P/1//X/9f+AP+7/4P/o/+j/4P/g//H/+//7///8=")
+const med0 = {
+  width: 16,
+  height: 16,
+  bpp: 1,
+  transparent: 1,
+  buffer: atob('///4P/1//X/9f+AP+7/4P/o/+j/4P/g//H/+//7///8=')
 };
-var med1 = {
-  width : 16, height : 16, bpp : 1,
-  transparent : 1,
-  buffer : atob("//////g//X/9f+AP+z/7P/o/+D/7P/g//H/+//7///8=")
+const med1 = {
+  width: 16,
+  height: 16,
+  bpp: 1,
+  transparent: 1,
+  buffer: atob('//////g//X/9f+AP+z/7P/o/+D/7P/g//H/+//7///8=')
 };
 
-var med2 = {
-  width : 16, height : 16, bpp : 1,
-  transparent : 1,
-  buffer : atob("////////+D/9f+AP+j/7P/s/+z/7v/g//H/+//7///8=")
+const med2 = {
+  width: 16,
+  height: 16,
+  bpp: 1,
+  transparent: 1,
+  buffer: atob('////////+D/9f+AP+j/7P/s/+z/7v/g//H/+//7///8=')
 };
 
 function drawMedicine () { // food eating animation
   const med = [med0, med1, med2];
-  const img = med[0|((frame/2)%3)];
+  const img = med[0 | ((frame / 2) % 3)];
   if (img) {
     g.drawImage(img, 0, 34, { scale: scale });
   }
@@ -829,9 +839,11 @@ function drawMedicine () { // food eating animation
 }
 
 var sun = {
-  width : 8, height : 8, bpp : 1,
-  transparent : 1,
-  buffer : atob("773nW9rnvfc=")
+  width: 8,
+  height: 8,
+  bpp: 1,
+  transparent: 1,
+  buffer: atob('773nW9rnvfc=')
 };
 
 function drawEating () { // food eating animation
@@ -887,34 +899,33 @@ function updateAnimation () {
     egg = (egg == egg00) ? egg01 : egg00;
     return;
   }
-  if (mode == "game") {
-   // console.log("update Animation");
+  if (mode == 'game') {
+    // console.log("update Animation");
     if (transition) {
-      var beep = frame % 4;
+      const beep = frame % 4;
       if (beep == 0) {
-         Bangle.beep (150, 4000);
+        Bangle.beep(150, 4000);
       } else if (beep == 2) {
-         Bangle.beep (150, 3200);
+        Bangle.beep(150, 3200);
       }
     } else {
       Bangle.beep(100);
     }
     if (gameChoice != 0) {
       // do things
-       gameChoice = 0;
-       if ((0|(Math.random()*3)) > 0) {
-          animateHappy();
-          gameWins++;
-        } else {
-          animateAngry();
-
-        }
+      gameChoice = 0;
+      if ((0 | (Math.random() * 3)) > 0) {
+        animateHappy();
+        gameWins++;
+      } else {
+        animateAngry();
+      }
     }
     return;
   }
-  if (mode == "medicine") {
+  if (mode == 'medicine') {
     if (frame > 3) {
-      mode = "";
+      mode = '';
       tama.sick--;
     }
   }
@@ -932,15 +943,14 @@ function updateAnimation () {
   if (tama.sleep) {
     n = tama00;
     x = (width / 2);
-    
   } else {
     n = n == tama00 ? tama01 : tama00;
-  if (tama.cacas > 0 || tama.sick > 0) {
-    if (x > (width / 2)) {
-      hd = -1;
-      x = (width / 2);
+    if (tama.cacas > 0 || tama.sick > 0) {
+      if (x > (width / 2)) {
+        hd = -1;
+        x = (width / 2);
+      }
     }
-  }
   }
 }
 
@@ -965,8 +975,8 @@ function activateItem () {
       if (tama.sleep) {
       } else {
       // evolution = 0;
-      mode = 'food';
-      lightSelect = 0;
+        mode = 'food';
+        lightSelect = 0;
       }
       break;
     case 1: // onoff
@@ -982,7 +992,7 @@ function activateItem () {
       if (tama.sleep) {
         // cant medicate if sleeping
       } else {
-        mode = "medicine";
+        mode = 'medicine';
         frame = 0;
         angryState = 0;
       }
@@ -1008,8 +1018,8 @@ function activateItem () {
           tama.discipline += 2;
           callForAttention = false;
         } else if (tama.sick > 0) {
-          tama.discipline --;
-        } 
+          tama.discipline--;
+        }
       }
       animateAngry();
       break;
@@ -1024,50 +1034,57 @@ const skull = {
   buffer: atob('gwFtARGDq/8=')
 };
 
-var zz0 = {
-  width : 8, height : 8, bpp : 1,
-  transparent : 1,
-  buffer : atob("//H9+/fRf/8=")
+const zz0 = {
+  width: 8,
+  height: 8,
+  bpp: 1,
+  transparent: 1,
+  buffer: atob('//H9+/fRf/8=')
 };
 
-var zz1 = {
-  width : 8, height : 8, bpp : 1,
-  transparent : 1,
-  buffer : atob("/8P79+/fw/8=")
+const zz1 = {
+  width: 8,
+  height: 8,
+  bpp: 1,
+  transparent: 1,
+  buffer: atob('/8P79+/fw/8=')
 };
 
-
-var zz2 = {
-  width : 8, height : 8, bpp : 1,
-  transparent : 0,
-  buffer : atob("AA4CBAgugAA=")
+const zz2 = {
+  width: 8,
+  height: 8,
+  bpp: 1,
+  transparent: 0,
+  buffer: atob('AA4CBAgugAA=')
 };
-var zz3 = {
-  width : 8, height : 8, bpp : 1,
-  transparent : 0,
-  buffer : atob("ADwECBAgPAA=")
+const zz3 = {
+  width: 8,
+  height: 8,
+  bpp: 1,
+  transparent: 0,
+  buffer: atob('ADwECBAgPAA=')
 };
 
 function drawCaca () {
-  if (mode == "game") {
+  if (mode == 'game') {
     return;
   }
- if (!caca) {
+  if (!caca) {
     caca = caca00;
   }
-    var zz = [zz0,zz1];
+  let zz = [zz0, zz1];
 
-if (lightMode) {
-      zz = [zz2,zz3];
-  g.setColor(1,1,1);
-  var fi = ((frame)/2)%2;
-  g.drawImage(zz[fi?1:0], sx + w - (scale * 9), 40, { scale: scale });
-  return;
-}
+  if (lightMode) {
+    zz = [zz2, zz3];
+    g.setColor(1, 1, 1);
+    var fi = ((frame) / 2) % 2;
+    g.drawImage(zz[fi ? 1 : 0], sx + w - (scale * 9), 40, { scale: scale });
+    return;
+  }
   g.setColor(0, 0, 0);
   if (tama.sleep) {
-    var fi = ((frame)/2)%2;
-    g.drawImage(zz[fi?1:0], sx + w - (scale * 9), 34, { scale: scale });
+    var fi = ((frame) / 2) % 2;
+    g.drawImage(zz[fi ? 1 : 0], sx + w - (scale * 9), 34, { scale: scale });
     if (tama.sick > 0) {
       g.drawImage(skull, sx + w - (scale * 9), 34 + (scale * 6), { scale: scale });
     } else if (tama.cacas > 0) {
@@ -1075,12 +1092,12 @@ if (lightMode) {
     }
   } else if (tama.sick > 0) {
     g.drawImage(skull, sx + w - (scale * 9), 34 + scale, { scale: scale });
-    if (tama.cacas >0) {
+    if (tama.cacas > 0) {
       g.drawImage(caca, sx + w - (scale * 11), 32 + (scale * 6), { scale: scale });
     }
   } else {
     if (tama.cacas > 0) {
-      g.drawImage(caca, sx + w - (scale * 11), 34 + (scale*6), { scale: scale });
+      g.drawImage(caca, sx + w - (scale * 11), 34 + (scale * 6), { scale: scale });
     }
     if (tama.cacas > 1) {
       g.drawImage(caca, sx + w - (scale * 11), 24, { scale: scale });
@@ -1105,8 +1122,8 @@ function animateHappy () {
       transition = false;
       angryState = 0;
       mode = oldMode;
-      if (mode == "game") {
-          gameTries++;
+      if (mode == 'game') {
+        gameTries++;
       }
     }
     drawScene();
@@ -1129,8 +1146,8 @@ function animateAngry () {
       transition = false;
       angryState = 0;
       mode = oldMode;
-      if (mode == "game") {
-          gameTries++;
+      if (mode == 'game') {
+        gameTries++;
       }
     }
     drawScene();
@@ -1196,10 +1213,10 @@ function animateShower () {
 }
 
 function animateToGame () {
-  if (transition || mode == "game") {
+  if (transition || mode == 'game') {
     return;
   }
-  mode = "game";
+  mode = 'game';
   gameChoice = 0;
   transition = true;
   let cx = 0;
@@ -1281,11 +1298,11 @@ function button (n) {
       return;
     }
   }
-    if (mode == "happy" || mode == "angry") {
-      return;
-    }
+  if (mode == 'happy' || mode == 'angry') {
+    return;
+  }
 
-  if (mode == "game") {
+  if (mode == 'game') {
     /*
     if (gameTries > 3) {
       mode = "";
@@ -1299,16 +1316,16 @@ function button (n) {
         // pick left
         gameChoice = 1;
         drawScene();
-        oldMode = "game";
+        oldMode = 'game';
         break;
       case 2:
         // pick right
         gameChoice = 2;
         drawScene();
-        oldMode = "game";
+        oldMode = 'game';
         break;
       case 3:
-        mode = "";
+        mode = '';
         // exit game
         break;
     }
@@ -1405,25 +1422,25 @@ function button (n) {
 function drawGame () {
   g.setColor(0, 0, 0);
 
-  var one = frame %2;
+  let one = frame % 2;
   if (transition) {
     one = 0;
-    g.drawImage(heart1, sx + w + (scale *6), 40, {scale:scale});
-    g.drawImage(heart1, sx + w + (scale * 16), 40, {scale:scale});
-    g.drawImage(heart0, sx + w, 40+ (scale * 8), {scale:scale});
-    g.drawImage(heart0, sx + w + (scale * 12), 40+ (scale * 8), {scale:scale});
+    g.drawImage(heart1, sx + w + (scale * 6), 40, { scale: scale });
+    g.drawImage(heart1, sx + w + (scale * 16), 40, { scale: scale });
+    g.drawImage(heart0, sx + w, 40 + (scale * 8), { scale: scale });
+    g.drawImage(heart0, sx + w + (scale * 12), 40 + (scale * 8), { scale: scale });
   } else {
     if (gameTries > 4) {
-      if (oldMode != "") {
+      if (oldMode != '') {
         if (gameWins > 2) {
           animateHappy();
         }
       }
       mode = oldMode;
-      oldMode = "";
+      oldMode = '';
     //  g.drawImage();
     } else {
-      g.drawImage(one ? tama06no1 : tama06no0, (scale*7) + sx, 40, { scale: scale });
+      g.drawImage(one ? tama06no1 : tama06no0, (scale * 7) + sx, 40, { scale: scale });
     }
   }
 }
@@ -1503,10 +1520,10 @@ function drawClock () {
 }
 
 setInterval(function () {
- // if (animated) {
-    updateAnimation();
-    drawScene();
- // }
+  // if (animated) {
+  updateAnimation();
+  drawScene();
+  // }
 }, 1000);
 
 let cacaLevel = 0;
@@ -1526,8 +1543,8 @@ setInterval(function () {
       tama.cacas++;
     }
   }
-  var d = new Date();
-  var h = d.getHours();
+  const d = new Date();
+  const h = d.getHours();
   tama.sleep = (h > 22 || h < 8);
   if (tama.awake > 0) {
     tama.awake--;
@@ -1549,7 +1566,7 @@ setInterval(function () {
   }
   if (tama.sickness > tama.defenses) {
     tama.sickness = 0;
-    tama.sick ++;
+    tama.sick++;
   }
   if (tama.sick > 0) {
     callForAttention = true;
@@ -1562,7 +1579,7 @@ Bangle.on('touch', function (r, s) {
   const w4 = w / 3;
   if (s.x > w - w4) {
     if (s.y < 50) {
-        Bangle.beep(150);
+      Bangle.beep(150);
       if (oldMode == 'clock') {
         oldMode = '';
         mode = 'clock';
@@ -1585,4 +1602,3 @@ Bangle.on('touch', function (r, s) {
     button(2);
   }
 });
-
