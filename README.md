@@ -21,7 +21,7 @@ Features
 * [x] Status for happy/hunger/discipline
 * [ ] Evolutions
 * [ ] Hatching eggs
-* [ ] Playing a game
+* [x] Playing a game
 * [ ] Education
 * [x] Medicine
 * [ ] Death
