@@ -694,16 +694,11 @@ function drawScene () {
   if (gameTries > 4) {
     mode = '';
     oldMode = '';
-    console.log('SHOW RESULTS');
-    g.setColor(0, 0, 0);
-    const ss = '' + gameWins + ' VS ' + (5 - gameWins);
-    g.setFont('Vector', 32);
-    // g.drawString(ss, (scale*4), 46);
     const s0 = numbers[gameWins];
     const s1 = numbers[(5 - gameWins)];
-    g.drawImage(s0, (scale * 6), 60, { scale: scale });
+    g.drawImage(s0, (scale * 5), 60, { scale: scale });
     g.drawImage(vs, (scale * 12), 60, { scale: scale });
-    g.drawImage(s1, (scale * 21), 60, { scale: scale });
+    g.drawImage(s1, (scale * 22), 60, { scale: scale });
 
     gameTries++;
     if (gameTries > 10) {
