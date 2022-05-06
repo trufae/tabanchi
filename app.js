@@ -580,9 +580,9 @@ const tama = {
   weight: 1,
   aspect: 6,
   discipline: 0,
-  happy: 0,
+  happy: 3,
   sick: false,
-  hungry: 0,
+  hungry: 3,
   cacas: 0, // move from cacas
   // hidden
   sickness: 0,
@@ -921,7 +921,7 @@ function updateAnimation () {
   if (mode == 'medicine') {
     if (frame > 3) {
       mode = '';
-      tama.sick--;
+      tama.sick = 0;
     }
   }
   x += (scale) * hd;
@@ -1551,9 +1551,12 @@ setInterval(function () {
   if (tama.sleep) {
     return;
   }
+  callForAttention = false;
+
   // health check
   tama.sickness += tama.cacas;
   if (tama.hungry == 0) {
+      callForAttention = true;
   //  tama.sickness++;
   }
   if (tama.hungry == 4) {
@@ -1597,3 +1600,4 @@ Bangle.on('touch', function (r, s) {
     button(2);
   }
 });
+
